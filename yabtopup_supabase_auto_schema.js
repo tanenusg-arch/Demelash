@@ -744,9 +744,6 @@ function get_main_keyboard() {
         { text: `${getBaseEmoji('PENDING_PAYMENT')} Pending Payment`.trim(), callback_data: "menu_pending_payments", style: "primary" },
       ],
       [
-        { text: "Developer", url: BOT_LOGS_LINK, icon_custom_emoji_id: "5251662946127336150" },
-      ],
-      [
         { text: "Channel", url: CHANNEL_LINK, style: "primary", icon_custom_emoji_id: "5458603970916270333" },
       ],
     ],
