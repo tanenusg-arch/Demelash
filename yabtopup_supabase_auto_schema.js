@@ -397,13 +397,13 @@ function processKeyboardCustomEmojis(markup) {
     // natively; only mapped/custom emojis are converted to icon_custom_emoji_id.
     text = text.replace(/^[\s]+|[\s]+$/g, "");
     out.text = text;
-    // Consistent button colors: wallet/confirm green, cancel/back red;
-    // product/service buttons use Telegram's blue primary style.
+    // Consistent button colors: wallet/confirm/product green, cancel/back red.
     const label = text.trim().toLowerCase();
     const cb = String(out.callback_data || "");
     if (cb.startsWith("svc_") || cb.startsWith("shop_") || cb.startsWith("pkg_") ||
-        cb.startsWith("ff_sub:") || cb.endsWith("_buy")) {
-      out.style = "primary";
+        cb.startsWith("ff_sub:") || cb.startsWith("region_pick:") || cb.startsWith("pubg_cat:") ||
+        cb.startsWith("premium_") || cb.startsWith("qamify_buy:") || cb.endsWith("_buy")) {
+      out.style = "success";
     }
     if (label === "wallet" || label.startsWith("wallet ") || out.callback_data === "menu_wallet") {
       out.style = "success";
@@ -1251,7 +1251,7 @@ async function verify_payment(transaction_id, method = "telebirr", expected_amou
       };
     }
 
-    const idempotencyKey = `elkartopup-${bank}-${String(transaction_id).trim()}-${uuidv4()}`;
+    const idempotencyKey = `demelashtopup-${bank}-${String(transaction_id).trim()}-${uuidv4()}`;
     const url = `${VERIFY_ET_BASE_URL}/api/verify?waitMs=5000`;
 
     const response = await axios.post(url, payload, {
@@ -2453,7 +2453,7 @@ function build_pubg_category_rows(session) {
   const rows = [];
   let pair = [];
   for (const c of present) {
-    const btn = { text: `${getBaseEmoji(c.emojiKey)} ${c.label}`, callback_data: `pubg_cat:${c.key}`, style: "primary" };
+    const btn = { text: `${getBaseEmoji(c.emojiKey)} ${c.label}`, callback_data: `pubg_cat:${c.key}`, style: "success" };
     if (c.key === "others") { if (pair.length) { rows.push(pair); pair = []; } rows.push([btn]); continue; }
     pair.push(btn);
     if (pair.length === 2) { rows.push(pair); pair = []; }
@@ -3181,15 +3181,15 @@ async function main() {
   bot.command("terms", async (ctx) => {
     clearUserSession(ctx.from.id);
     const terms =
-      `{emoji:WARNING} <b>ELKARTOPUP — RULES &amp; TERMS</b> {emoji:WARNING}\n` +
-      `By using ELKARTOPUP, you automatically agree to the following Terms &amp; Conditions\n\n` +
+      `{emoji:WARNING} <b>DEMELASH TOPUP — RULES &amp; TERMS</b> {emoji:WARNING}\n` +
+      `By using DEMELASH TOPUP, you automatically agree to the following Terms &amp; Conditions\n\n` +
       `{emoji:WARNING} <b>AGE REQUIREMENT</b>\n` +
       `Users must be 18+ to use our services. If you are under 18, do not send money without permission from a parent/guardian. Unauthorized transactions may lead to legal action.\n\n` +
       `{emoji:GEMINI_DESC} <b>AUTO PRODUCTS</b>\n` +
       `{emoji:FREE_FIRE} Free Fire, {emoji:STARS} Telegram Stars, {emoji:CAPCUT} CapCut Pro, PUBG Mobile, EA FC Mobile, Amazon Prime, NordVPN &amp; Notion are AUTO. After payment, copy the receipt text and send it to the Bot. Your selected product will be delivered automatically.\n\n` +
       `{emoji:CANCEL} Fake receipts / fake payments are strictly prohibited. Users who submit fake receipts will be permanently banned from the Bot.\n\n` +
       `{emoji:GEMINI_DESC} <b>MANUAL PRODUCTS</b>\n` +
-      `{emoji:TIKTOK} TikTok Coins &amp; {emoji:TELEGRAM} Telegram Premium are MANUAL. To order, contact the Admin or ELKARTOPUP directly.\n\n` +
+      `{emoji:TIKTOK} TikTok Coins &amp; {emoji:TELEGRAM} Telegram Premium are MANUAL. To order, contact the Admin or DEMELASH TOPUP directly.\n\n` +
       `{emoji:PREMIUM} Telegram Premium: After payment, send the Telegram @username where you want Premium.\n\n` +
       `{emoji:TIKTOK} TikTok Coins: After payment, send the TikTok Email or Phone Number of the account. If using Email, also provide the password. When a login code is sent to your Email/Phone, send the code carefully to the Admin.\n\n` +
       `{emoji:GEMINI_DESC} <b>PAYMENT &amp; RESPONSIBILITY</b>\n` +
@@ -3849,7 +3849,7 @@ async function main() {
           rows.push(regions.slice(i, i + 2).map((r, j) => ({
             text: r.label,
             callback_data: `region_pick:${family}:${i + j}`,
-            style: "primary",
+            style: "success",
           })));
         }
         rows.push([{ text: `{emoji:BACK} Back to Shop`, callback_data: "shop_back" }]);
@@ -3910,7 +3910,7 @@ async function main() {
             buttons.push({
               text: `${rawName} - ${Math.floor(charged)} ETB`.trim(),
               callback_data: `pkg_game:${idx}`,
-              style: "primary",
+              style: "success",
             });
           }
           session.data.pkg_buttons = buttons;
@@ -4068,7 +4068,7 @@ async function main() {
             buttons.push({
               text: `${getBaseEmoji(ffEmojiKey)}${rawName} - ${Math.floor(charged)} ETB`.trim(),
               callback_data: `pkg_game:${idx}`,
-              style: "primary",
+              style: "success",
             });
           }
           session.data.pkg_buttons = buttons;
@@ -4133,7 +4133,7 @@ async function main() {
 
           const buy_kb = {
             inline_keyboard: [
-              [{ text: `{emoji:PAY} Buy Now`, callback_data: "gemini_buy", style: "primary" }],
+              [{ text: `{emoji:PAY} Buy Now`, callback_data: "gemini_buy", style: "success" }],
               [{ text: `{emoji:BACK} Back to Shop`, callback_data: "shop_back", style: "danger" }],
             ],
           };
@@ -4201,7 +4201,7 @@ async function main() {
 
           const buy_kb = {
             inline_keyboard: [
-              [{ text: `{emoji:PAY} Buy Now`, callback_data: "capcut_buy", style: "primary" }],
+              [{ text: `{emoji:PAY} Buy Now`, callback_data: "capcut_buy", style: "success" }],
               [{ text: `{emoji:BACK} Back to Shop`, callback_data: "shop_back", style: "danger" }],
             ],
           };
@@ -4288,7 +4288,7 @@ async function main() {
             `{emoji:INFO} <b>Sold:</b> ${product.sold_total ?? "N/A"}\n\n` +
             `Tap "Buy Now" to proceed with your order.`;
           const detailButtons = [
-            [{ text: `{emoji:PAY} Buy Now`, callback_data: `qamify_buy:${key}`, style: "primary" }],
+            [{ text: `{emoji:PAY} Buy Now`, callback_data: `qamify_buy:${key}`, style: "success" }],
           ];
           detailButtons.push([{ text: `{emoji:BACK} Back to Shop`, callback_data: "shop_back", style: "danger" }]);
           await sendOrEdit(ctx, details, { reply_markup: { inline_keyboard: detailButtons } });
@@ -4329,10 +4329,10 @@ async function main() {
           await clear_last_photo(ctx, session);
           const premiumKeyboard = {
             inline_keyboard: [
-              [{ text: `${getBaseEmoji('PREMIUM')} 1 Month - 800 ETB`.trim(), callback_data: "premium_manual_1", style: "primary" }],
-              [{ text: `${getBaseEmoji('PREMIUM')} 3 Months - 2,900 ETB`.trim(), callback_data: "premium_auto_3", style: "primary" }],
-              [{ text: `${getBaseEmoji('PREMIUM')} 6 Months - 3,900 ETB`.trim(), callback_data: "premium_auto_6", style: "primary" }],
-              [{ text: `${getBaseEmoji('PREMIUM')} 12 Months - 6,300 ETB`.trim(), callback_data: "premium_auto_12", style: "primary" }],
+              [{ text: `${getBaseEmoji('PREMIUM')} 1 Month - 800 ETB`.trim(), callback_data: "premium_manual_1", style: "success" }],
+              [{ text: `${getBaseEmoji('PREMIUM')} 3 Months - 2,900 ETB`.trim(), callback_data: "premium_auto_3", style: "success" }],
+              [{ text: `${getBaseEmoji('PREMIUM')} 6 Months - 3,900 ETB`.trim(), callback_data: "premium_auto_6", style: "success" }],
+              [{ text: `${getBaseEmoji('PREMIUM')} 12 Months - 6,300 ETB`.trim(), callback_data: "premium_auto_12", style: "success" }],
               [{ text: `${getBaseEmoji('BACK')} Back to Telegram`.trim(), callback_data: "shop_telegram" }]
             ]
           };
@@ -4461,7 +4461,7 @@ async function main() {
           keyboard_buttons.push({
             text: display_text,
             callback_data: `pkg_idx:${idx}`,
-            style: "primary",
+            style: "success",
           });
         }
         let grid = [];
@@ -6355,14 +6355,14 @@ async function main() {
   // ---- Launch ----
   // Telegram command menu: all main-menu buttons except Bot Logs and Channel.
   await bot.telegram.setMyCommands([
-    { command: "start", description: "Open ELKARTOPUP main menu" },
+    { command: "start", description: "Open DEMELASH TOPUP main menu" },
     { command: "wallet", description: "Open Wallet" },
     { command: "shop", description: "Open Shop" },
     { command: "profile", description: "View My Profile" },
     { command: "orders", description: "View My Orders" },
     { command: "support", description: "Contact support / admin" },
     { command: "pending", description: "View Pending Payments" },
-    { command: "terms", description: "View ELKARTOPUP Rules & Terms" },
+    { command: "terms", description: "View DEMELASH TOPUP Rules & Terms" },
     { command: "cancel", description: "Cancel current action" }
   ]).catch(e => logger.warn(`Could not set bot commands: ${e.message}`));
 
@@ -6388,7 +6388,7 @@ async function main() {
   const server = http.createServer(async (req, res) => {
     if (req.method === "GET" && (req.url === "/" || req.url === "/health")) {
       res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
-      res.end("YABTOPUP Telegram webhook is running.");
+      res.end("DEMELASH TOPUP Telegram webhook is running.");
       return;
     }
     if (req.method !== "POST" || req.url !== webhookPath) {
@@ -6469,4 +6469,4 @@ if (require.main === module) {
     logger.error(`Fatal crash: ${err.message}`, err);
     process.exit(1);
   });
-}
+          }
