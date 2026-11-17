@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "description": "YABTOPUP Telegram bot using a Render webhook and Supabase",
-  "main": "yabtopup_supabase_auto_schema.js",
+  "main": "yabtopup_supabase_auto_schema (2).js",
   "scripts": {
-    "start": "node yabtopup_supabase_auto_schema.js",
-    "check": "node --check yabtopup_supabase_auto_schema.js"
+    "start": "node yabtopup_supabase_auto_schema (2).js",
+    "check": "node --check yabtopup_supabase_auto_schema (2).js"
   },
   "engines": {
     "node": ">=20"
