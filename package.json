@@ -1,22 +1,21 @@
 {
-  "name": "yabtopup-supabase-auto-schema",
+  "name": "demelash-topup-bot",
   "version": "1.0.0",
-  "private": true,
-  "description": "YABTOPUP Telegram bot using a Render webhook and Supabase",
-  "main": "yabtopup_supabase_auto_schema (2).js",
+  "description": "DEMELASH TOPUP Telegram bot",
+  "main": "yabtopup_supabase_auto_schema.js",
   "scripts": {
-    "start": "npm start",
+    "start": "node yabtopup_supabase_auto_schema.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.0",
-    "axios": "^1.12.2",
-    "pg": "^8.16.3",
+    "@supabase/supabase-js": "^2.45.0",
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.5",
+    "pg": "^8.12.0",
     "telegraf": "^4.16.3",
-    "uuid": "^11.1.0",
-    "winston": "^3.17.0",
-    "dotenv": "^16.6.1"
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0"
   }
 }
