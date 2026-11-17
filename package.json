@@ -5,8 +5,7 @@
   "description": "YABTOPUP Telegram bot using a Render webhook and Supabase",
   "main": "yabtopup_supabase_auto_schema (2).js",
   "scripts": {
-    "start": "node yabtopup_supabase_auto_schema (2).js",
-    "check": "node --check yabtopup_supabase_auto_schema (2).js"
+    "start": "npm start",
   },
   "engines": {
     "node": ">=20"
